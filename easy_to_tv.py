@@ -124,8 +124,8 @@ class MainWin(QMainWindow):
         self.托盘图标.show()
 
     def 托盘图标被点击(self, reason):
-        图标位置 = self.托盘图标.geometry()
-        self.move(图标位置.x(), 图标位置.y())
+        # 图标位置 = self.托盘图标.geometry()
+        # self.move(图标位置.x(), 图标位置.y())
         # 点击显示或隐藏窗口
         if self.isVisible():
             self.hide()

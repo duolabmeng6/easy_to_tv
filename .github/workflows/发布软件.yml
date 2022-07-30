@@ -54,7 +54,7 @@ jobs:
       - name: 编译exe
         run: |
           python run_write_version.py
-          pyinstaller --noconfirm --onefile --windowed --icon "app.ico" "easy_to_tv.py"
+          pyinstaller --noconfirm --onefile --console --icon "app.ico" "easy_to_tv.py"
 
       - name: 测试运行情况
         uses: GuillaumeFalourd/assert-command-line-output@v2
