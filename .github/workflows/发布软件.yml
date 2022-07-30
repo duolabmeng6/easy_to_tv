@@ -94,7 +94,7 @@ jobs:
       - name: 编译 MacOS.app
         run: |
           python run_write_version.py
-          pyinstaller --noconfirm --onefile --windowed --icon "app.icns" "easy_to_tv.py"
+          pyinstaller --noconfirm --windowed --icon "app.icns" "easy_to_tv.py"
 
       - name: 测试运行情况
         uses: GuillaumeFalourd/assert-command-line-output@v2
