@@ -25,7 +25,11 @@ def 获取设备列表():
     if 系统_是否为window系统():
         命令 = f"{全局变量_资源文件目录}/go2tv/go2tv.exe -l"
         print(命令)
-        内容 = 运行(命令)
+        # 内容 = 运行(命令)
+        终端 = 终端类()
+        终端.运行(命令)
+        内容 = 终端.取返回结果()
+        
     if 系统_是否为mac系统():
         命令 = f"{全局变量_资源文件目录}/go2tv/go2tv -l"
         print(命令)
@@ -65,10 +69,10 @@ def 结束http服务器():
 
 if __name__ == "__main__":
     pass
-    # 设备列表 = 获取设备列表()
-    # for x in 设备列表:
-    #     Model, URL = x['Model'], x['URL']
-    #     ic(Model, URL)
+    设备列表 = 获取设备列表()
+    for x in 设备列表:
+        Model, URL = x['Model'], x['URL']
+        ic(Model, URL)
 
     # 设备URL = "http://192.168.31.239:57873/description.xml"
     # 播放文件路径 = "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP01.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4"
