@@ -10,4 +10,6 @@ __pycache__
 .idea
 /o
 /build
+/go2tvproject
+*.mp4
 
