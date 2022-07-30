@@ -1,0 +1,3 @@
+[submodule "qtAutoUpdateApp"]
+	path = qtAutoUpdateApp
+	url = https://github.com/duolabmeng6/qtAutoUpdateApp

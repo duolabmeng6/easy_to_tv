@@ -1,0 +1,150 @@
+name: 发布软件
+
+on:
+  push: # 代码推送到main分支自动触发工作流
+    branches:
+      - main
+  workflow_dispatch: # 手动触发
+
+permissions: write-all # 给所有工作写权限
+
+jobs:
+  jobs_v:
+    name: 构建版本号和变更信息
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.create_version.outputs.tag_name }} # 版本号
+      body: ${{ steps.create_version.outputs.body }} # 版本变更内容
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        id: create_version
+        with:
+          config-name: release-drafter.yml # 配置文件在 .github/release-drafter.yml
+          disable-autolabeler: true # 禁止自动标签
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 查看变量
+        run: |
+          echo ${{ format('version={0}', steps.create_version.outputs.tag_name ) }} 
+
+  jobs_window:
+    needs: jobs_v # 等待 jobs_v 任务完成才执行
+    name: 构建window软件
+    timeout-minutes: 5
+    runs-on: windows-2022
+    env:
+      version: ${{ needs.jobs_v.outputs.version }}
+      body: ${{ needs.jobs_v.outputs.body }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: 读入环境信息
+        run: |
+          echo ${{ format('version {0}', env.version ) }} # 版本号
+      - name: 编译环境设置 Python 3.9.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9.13"
+          architecture: "x64"
+          cache: 'pip'
+      - name: 下载依赖文件
+        run: |
+          pip install -r requirements.txt
+          cd ./pyefun
+          pip install -r requirements.txt
+          python setup.py install
+          cd ..
+      - name: 编译exe
+        run: |
+          python run_write_version.py
+          pyinstaller QtEasyDesigner_window.spec
+      - name: 测试运行情况
+        uses: GuillaumeFalourd/assert-command-line-output@v2
+        with:
+          command_line: ./dist/QtEasyDesigner.exe test
+          contains: app run success
+          expected_result: PASSED
+      - name: 上传产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: window
+          path: ./dist/*.exe
+
+  jobs_macos:
+    needs: jobs_v
+    name: 构建macos软件
+    runs-on: macos-12
+    env:
+      version: ${{ needs.jobs_v.outputs.version }}
+      body: ${{ needs.jobs_v.outputs.body }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: 读入环境信息
+        run: |
+          echo ${{ format('version {0}', env.version ) }}
+      - name: 编译环境设置 Python 3.9.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9.13"
+          architecture: "x64"
+          cache: 'pip'
+      - name: 下载依赖文件
+        run: |
+          pip install -r requirements.txt
+          cd ./pyefun
+          pip install -r requirements.txt
+          python setup.py install
+          cd ..
+      - name: 编译 MacOS.app
+        run: |
+          python run_write_version.py
+          pyinstaller QtEasyDesigner_mac.spec
+      - name: 测试运行情况
+        uses: GuillaumeFalourd/assert-command-line-output@v2
+        with:
+          command_line: ./dist/QtEasyDesigner.app/Contents/MacOS/QtEasyDesigner test
+          contains: app run success
+          expected_result: PASSED
+      - name: 创建压缩包
+        run: |
+          cd ./dist
+          zip -r ./QtEasyDesigner_MacOS.zip ./QtEasyDesigner.app
+      - name: 上传产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos
+          path: ./dist/*.zip
+
+
+  jobs4:
+    needs: [ jobs_v,jobs_window,jobs_macos ]
+    name: 发布版本
+    runs-on: ubuntu-latest
+    env:
+      version: ${{ needs.jobs_v.outputs.version }}
+      body: ${{ needs.jobs_v.outputs.body }}
+    steps:
+      - name: 下载产物
+        id: download
+        uses: actions/download-artifact@v3
+        with:
+          path: ./
+      - name: 读入环境信息
+        run: |
+          echo ${{ format('version {0}', env.version ) }}
+          echo ${{steps.download.outputs.download-path}}
+          ls -R
+
+      - name: 发布文件
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true # 覆盖文件
+          #draft: true # 草稿 自己可见 版本号会保持一样 默认是自动发布 latest
+          #prerelease: true # 预发布 别人可以看到 版本号会继续加
+          tag: ${{ env.version }} # 版本号 v0.1.0
+          body: ${{ env.body }} # 输出的内容
+          artifacts: "window/*.exe,macos/*.zip"

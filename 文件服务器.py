@@ -1,0 +1,17 @@
+from flask import Flask, send_file
+
+import 文件服务类
+
+app = Flask(__name__)
+
+
+@app.route('/<path:url_path>')
+def mp4(url_path):
+    path = 文件服务类.取路径(url_path)
+    # print("path", path)
+    # print("url_path", url_path)
+    return send_file(path, as_attachment=False)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=6161, threaded=True)

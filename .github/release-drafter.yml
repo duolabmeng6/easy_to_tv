@@ -1,0 +1,35 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 新功能'
+    labels:
+      - '新功能'
+  - title: '🐛 Bug 修复'
+    labels:
+      - 'bug'
+  - title: '🧰 日常维护'
+    label: '日常维护'
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  # Qt Easy Designer 揣着梦想与情怀 诗和远方
+  * 轻轻松松画界面
+  * 简简单单做开发
+  * 开箱即用
+  * 中文组件函数
+  * pycharm 完美支持
+
+  $CHANGES
+no-changes-template: |
+  快下载体验~
