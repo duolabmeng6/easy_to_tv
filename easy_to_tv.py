@@ -131,7 +131,7 @@ class MainWin(QMainWindow):
                                                            应用名称=全局_应用名称,
                                                            当前版本号=全局_当前版本,
                                                            官方网址=全局_官方网址)
-            self.检查更新窗口.show()
+        self.检查更新窗口.show()
 
     def 注册托盘图标(self):
         self.托盘图标 = QSystemTrayIcon(self)
