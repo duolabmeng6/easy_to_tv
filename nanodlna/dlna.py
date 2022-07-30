@@ -63,39 +63,18 @@ def send_dlna_action(device, data, action):
 
 
 def play(files_urls, device):
-
-    logging.debug("Starting to play: {}".format(
-        json.dumps({
-            "files_urls": files_urls,
-            "device": device
-        })
-    ))
-
     video_data = {
         "uri_video": files_urls["file_video"],
         "type_video": os.path.splitext(files_urls["file_video"])[1][1:],
     }
-
     if "file_subtitle" in files_urls and files_urls["file_subtitle"]:
-
-        video_data.update({
-            "uri_sub": files_urls["file_subtitle"],
-            "type_sub": os.path.splitext(files_urls["file_subtitle"])[1][1:]
-        })
-
         metadata = pkgutil.get_data(
             "nanodlna",
             "templates/metadata-video_subtitle.xml").decode("UTF-8")
         video_data["metadata"] = xmlescape(metadata.format(**video_data))
-
     else:
         video_data["metadata"] = ""
-
-    logging.debug("Created video data: {}".format(json.dumps(video_data)))
-
-    logging.debug("Setting Video URI")
     send_dlna_action(device, video_data, "SetAVTransportURI")
-    logging.debug("Playing video")
     send_dlna_action(device, video_data, "Play")
 
 

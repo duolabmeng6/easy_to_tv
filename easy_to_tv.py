@@ -1,3 +1,4 @@
+import os
 import sys
 import threading
 
@@ -5,7 +6,10 @@ import PySide6
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
+
+import 文件服务类
 from qtefun.组件.按钮 import 按钮
+from qtefun.组件.标签 import 标签
 from qtefun.组件.组合框 import 组合框
 from qtefun.组件.单行编辑框 import 单行编辑框
 from qtefun.图标 import *
@@ -70,12 +74,19 @@ class MainWin(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.当前选中设备URL = None
         self.ui = ui_多多投屏.Ui_MainWindow()
         self.ui.setupUi(self)
         self.show()
         # 禁止最大化 伸缩大小
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("多多投屏 " + version.version)
+        # 状态条插入标签
+        self.label_zhuangtaitiao = QLabel(self)
+        # 点击事件
+        self.标签状态条 = 标签(self.label_zhuangtaitiao)
+        self.标签状态条.绑定事件被按下(self.标签状态条被点击)
+        self.statusBar().addWidget(self.label_zhuangtaitiao)
 
         self.注册托盘图标()
 
@@ -108,6 +119,8 @@ class MainWin(QMainWindow):
         self.ui.centralwidget.setAcceptDrops(True)
         self.ui.centralwidget.dragEnterEvent = self.拖放事件
 
+
+
     def 按钮检查更新被点击(self):
         if self.检查更新窗口 is None:
             self.检查更新窗口 = 自动更新模块.窗口_更新软件(Github项目名称=全局_项目名称,
@@ -136,7 +149,11 @@ class MainWin(QMainWindow):
         if event.mimeData().hasUrls():
             print("拖放事件")
             # 获取拖放文件的路径
-            self.编辑框路径.内容 = event.mimeData().urls()[0].path()
+            文件路径 = event.mimeData().text()
+            # 替换文本  file:///
+            文件路径 = 文件路径.replace("file:///", "")
+            self.编辑框路径.内容 = 文件路径
+
 
             event.accept()
         else:
@@ -165,9 +182,21 @@ class MainWin(QMainWindow):
         if 文件名[0]:
             self.编辑框路径.内容 = 文件名[0]
 
+    def 标签状态条被点击(self,e):
+        # 设置剪切板文本
+        QApplication.clipboard().setText(self.标签状态条.标题)
+        # 提示用户
+        QMessageBox.information(self, "提示", "已复制到剪切板")
+
+
     def 按钮开始播放被点击(self):
         print("按钮开始播放被点击")
-        self.播放设备 = 投屏模块.投递视频文件(self.当前选中设备URL, self.编辑框路径.内容)
+        if self.当前选中设备URL == None:
+            QMessageBox.warning(self, "提示", "请选择设备")
+            return
+        self.播放设备,播放地址 = 投屏模块.投递视频文件(self.当前选中设备URL, self.编辑框路径.内容)
+
+        self.标签状态条.标题 = 播放地址
 
     def 按钮停止播放被点击(self):
         print("按钮停止播放被点击")

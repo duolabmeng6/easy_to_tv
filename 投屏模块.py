@@ -8,7 +8,7 @@ import 文件服务类
 
 def 获取设备列表():
     设备列表 = []
-    my_devices = devices.get_devices(2)
+    my_devices = devices.get_devices(5)
     for i, device in enumerate(my_devices, 1):
         设备列表.append({
             "Model": device["friendly_name"],
@@ -31,12 +31,18 @@ def 投递视频文件(设备url, 文件路径):
     if not device:
         sys.exit("No devices found.")
     target_ip = device["hostname"]
-    文件名 = os.path.basename(文件路径)
-    文件服务类.写文件名与路径(文件名, 文件路径)
-    files_urls = {'file_video': f"http://{target_ip}:6161/{文件名}"}
+    局域网ip = 取局域网ip(target_ip)
+    if 文件路径.startswith("http"):
+        # 对文件路径url编码
+        播放地址 = 文件路径
+    else:
+        文件名 = os.path.basename(文件路径)
+        文件服务类.写文件名与路径(文件名, 文件路径)
+        播放地址  = f"http://{局域网ip}:6161/{文件名}"
+    files_urls = {'file_video': 播放地址}
     print("Files URLs: {}".format(files_urls))
     dlna.play(files_urls, device)
-    return device
+    return device,播放地址
 
 
 def 暂停播放(device):
