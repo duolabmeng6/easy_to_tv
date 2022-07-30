@@ -56,6 +56,7 @@ class 刷新设备线程(QThread):
         self.started.connect(self.ui_开始)
         self.finished.connect(self.ui_结束)
         self.回调函数 = 回调函数
+        self.数据 = None
 
     def run(self):
         pass
@@ -72,6 +73,32 @@ class 刷新设备线程(QThread):
         self.回调函数(self.数据)
 
 
+
+
+class 投屏线程(QThread):
+    def __init__(self, 当前选中设备URL,文件路径,回调函数):
+        super(投屏线程, self).__init__()
+        self.started.connect(self.ui_开始)
+        self.finished.connect(self.ui_结束)
+        self.当前选中设备URL = 当前选中设备URL
+        self.文件路径 = 文件路径
+        self.回调函数 = 回调函数
+        self.播放设备 = None
+        self.播放地址 = None
+
+    def run(self):
+        pass
+        self.播放设备,self.播放地址 = 投屏模块.投递视频文件(self.当前选中设备URL, self.文件路径)
+
+    def ui_开始(self):
+        pass
+
+    def ui_结束(self):
+        pass
+        self.回调函数(self.播放设备,self.播放地址)
+
+
+
 class MainWin(QMainWindow):
     播放设备 = None
     检查更新窗口 = None
@@ -80,7 +107,9 @@ class MainWin(QMainWindow):
         super().__init__()
         self.当前选中设备URL = None
         self.ui = ui_多多投屏.Ui_MainWindow()
+
         self.ui.setupUi(self)
+
         self.show()
         # 禁止最大化 伸缩大小
         self.setFixedSize(self.width(), self.height())
@@ -122,6 +151,10 @@ class MainWin(QMainWindow):
         # 注册文件拖放 绑定事件
         self.ui.centralwidget.setAcceptDrops(True)
         self.ui.centralwidget.dragEnterEvent = self.拖放事件
+        # 拖放结束事件
+        self.ui.centralwidget.dropEvent = self.拖放结束事件
+
+
 
 
 
@@ -136,7 +169,7 @@ class MainWin(QMainWindow):
     def 注册托盘图标(self):
         self.托盘图标 = QSystemTrayIcon(self)
         self.托盘图标.setIcon(获取图标("mdi.apple-airplay", "#000000"))
-        self.托盘图标.setToolTip("廉政行动")
+        self.托盘图标.setToolTip("多多投屏 点击隐藏或显示")
         self.托盘图标.activated.connect(self.托盘图标被点击)
         self.托盘图标.show()
 
@@ -148,6 +181,10 @@ class MainWin(QMainWindow):
             self.hide()
         else:
             self.show()
+    def 拖放结束事件(self,event):
+        # 发送点击消息
+        self.按钮开始播放.对象.click()
+
 
     def 拖放事件(self, event):
         if event.mimeData().hasUrls():
@@ -161,6 +198,7 @@ class MainWin(QMainWindow):
                 文件路径 = 文件路径.replace("file://", "")
 
             self.编辑框路径.内容 = 文件路径
+
 
 
             event.accept()
@@ -196,15 +234,19 @@ class MainWin(QMainWindow):
         # 提示用户
         QMessageBox.information(self, "提示", "已复制到剪切板")
 
+    def 投屏回调函数(self,播放设备,播放地址):
+        self.播放设备 = 播放设备
+        self.播放地址 = 播放地址
+        self.标签状态条.标题 = 播放地址
 
     def 按钮开始播放被点击(self):
         print("按钮开始播放被点击")
         if self.当前选中设备URL == None:
             QMessageBox.warning(self, "提示", "请选择设备")
             return
-        self.播放设备,播放地址 = 投屏模块.投递视频文件(self.当前选中设备URL, self.编辑框路径.内容)
+        self.投屏 = 投屏线程(self.当前选中设备URL, self.编辑框路径.内容,self.投屏回调函数)
+        self.投屏.start()
 
-        self.标签状态条.标题 = 播放地址
 
     def 按钮停止播放被点击(self):
         print("按钮停止播放被点击")
