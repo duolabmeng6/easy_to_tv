@@ -103,7 +103,7 @@ class MainWin(QMainWindow):
         self.文件服务器 = 文件服务器线程()
         self.文件服务器.start()
 
-        self.编辑框路径.内容 = "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP05.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4"
+        # self.编辑框路径.内容 = "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP05.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4"
         # 注册文件拖放 绑定事件
         self.ui.centralwidget.setAcceptDrops(True)
         self.ui.centralwidget.dragEnterEvent = self.拖放事件
