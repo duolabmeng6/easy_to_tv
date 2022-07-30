@@ -1,13 +1,7 @@
-import os
-import sys
-import threading
-
-import PySide6
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 
-import 文件服务类
 from qtefun.组件.按钮 import 按钮
 from qtefun.组件.标签 import 标签
 from qtefun.组件.组合框 import 组合框
@@ -270,7 +264,7 @@ class MainWin(QMainWindow):
 if __name__ == '__main__':
     自动更新模块.初始化()
 
-    app = QApplication(sys.argv)
+    app = QApplication()
     window = MainWin()
 
     sys.exit(app.exec())

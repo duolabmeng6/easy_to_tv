@@ -1,4 +1,3 @@
-from 公用函数 import *
 from pyefun import *
 from pyefun.模块.终端类 import *
 
@@ -11,21 +10,21 @@ else:
 
 
 def 获取设备列表():
-    #     内容 = """
-    # Device 1
-    # --------
-    # Model: Macast(chensuiongdeMBP)
-    # URL:   http://192.168.31.239:57873/description.xml
-    #
-    # Device 2
-    # --------
-    # Model: 小爱音箱-3224
-    # URL:   http://192.168.31.52:9999/bab5411b-9c23-4c6a-827d-4b463943da0b.xml
-    # """
+#     内容 = """
+# Device 1
+# --------
+# Model: 华为智慧屏 S65
+# URL:   http://192.168.31.239:57873/description.xml
+#
+# Device 2
+# --------
+# Model: 小爱音箱-3224
+# URL:   http://192.168.31.52:9999/bab5411b-9c23-4c6a-827d-4b463943da0b.xml
+# """
+    内容 = ""
     if 系统_是否为window系统():
         命令 = f"{全局变量_资源文件目录}/go2tv/go2tv.exe -l"
         print(命令)
-        # 内容 = 运行(命令)
         终端 = 终端类()
         终端.运行(命令)
         内容 = 终端.取返回结果()
@@ -33,9 +32,9 @@ def 获取设备列表():
     if 系统_是否为mac系统():
         命令 = f"{全局变量_资源文件目录}/go2tv/go2tv -l"
         print(命令)
-        内容 = 运行(命令)
-
-
+        终端 = 终端类()
+        终端.运行(命令)
+        内容 = 终端.取返回结果()
     # 正则获取内容中的 Model URL
     正则 = re.compile(r'Model: (.*?)\nURL: (.*?)\n')
     设备列表 = 正则.findall(内容)
@@ -57,12 +56,6 @@ def 投递视频文件(设备url, 文件路径):
     # tell.app('Terminal', 'do script "' + 命令 + '"')
 
 
-def 工作线程():
-    设备URL = "http://192.168.31.239:57873/description.xml"
-    播放文件路径 = "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP01.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4"
-    投递视频文件(设备URL, 播放文件路径)
-
-
 def 结束http服务器():
     运行("killall go2tv")
 
@@ -72,7 +65,7 @@ if __name__ == "__main__":
     设备列表 = 获取设备列表()
     for x in 设备列表:
         Model, URL = x['Model'], x['URL']
-        ic(Model, URL)
+        print(Model, URL)
 
     # 设备URL = "http://192.168.31.239:57873/description.xml"
     # 播放文件路径 = "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP01.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4"
