@@ -23,12 +23,9 @@ version-resolver:
       - 'patch'
   default: patch
 template: |
-  # Qt Easy Designer 揣着梦想与情怀 诗和远方
-  * 轻轻松松画界面
-  * 简简单单做开发
-  * 开箱即用
-  * 中文组件函数
-  * pycharm 完美支持
+  # 多多投屏
+  * 轻轻松松从MacOS 和 Window中投视频到电视上
+  * 永久免费
 
   $CHANGES
 no-changes-template: |

@@ -51,18 +51,15 @@ jobs:
       - name: 下载依赖文件
         run: |
           pip install -r requirements.txt
-          cd ./pyefun
-          pip install -r requirements.txt
-          python setup.py install
-          cd ..
       - name: 编译exe
         run: |
           python run_write_version.py
-          pyinstaller QtEasyDesigner_window.spec
+          pyinstaller --noconfirm --onefile --windowed --icon "app.ico" "easy_to_tv.py"
+
       - name: 测试运行情况
         uses: GuillaumeFalourd/assert-command-line-output@v2
         with:
-          command_line: ./dist/QtEasyDesigner.exe test
+          command_line: ./dist/easy_to_tv.exe test
           contains: app run success
           expected_result: PASSED
       - name: 上传产物
@@ -94,24 +91,21 @@ jobs:
       - name: 下载依赖文件
         run: |
           pip install -r requirements.txt
-          cd ./pyefun
-          pip install -r requirements.txt
-          python setup.py install
-          cd ..
       - name: 编译 MacOS.app
         run: |
           python run_write_version.py
-          pyinstaller QtEasyDesigner_mac.spec
+          pyinstaller --noconfirm --onefile --windowed --icon "app.icns" "easy_to_tv.py"
+
       - name: 测试运行情况
         uses: GuillaumeFalourd/assert-command-line-output@v2
         with:
-          command_line: ./dist/QtEasyDesigner.app/Contents/MacOS/QtEasyDesigner test
+          command_line: ./dist/easy_to_tv.app/Contents/MacOS/easy_to_tv test
           contains: app run success
           expected_result: PASSED
       - name: 创建压缩包
         run: |
           cd ./dist
-          zip -r ./QtEasyDesigner_MacOS.zip ./QtEasyDesigner.app
+          zip -r ./easy_to_tv_MacOS.zip ./easy_to_tv.app
       - name: 上传产物
         uses: actions/upload-artifact@v3
         with:
