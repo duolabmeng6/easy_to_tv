@@ -21,6 +21,7 @@ import 文件服务器
 
 import qtAutoUpdateApp.自动更新模块 as 自动更新模块
 import version
+from pyefun import *
 
 全局变量_版本号 = version.version
 全局_项目名称 = "duolabmeng6/easy_to_tv"
@@ -151,7 +152,11 @@ class MainWin(QMainWindow):
             # 获取拖放文件的路径
             文件路径 = event.mimeData().text()
             # 替换文本  file:///
-            文件路径 = 文件路径.replace("file:///", "")
+            if 系统_是否为window系统():
+                文件路径 = 文件路径.replace("file:///", "")
+            else:
+                文件路径 = 文件路径.replace("file://", "")
+
             self.编辑框路径.内容 = 文件路径
 
 
