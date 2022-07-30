@@ -41,14 +41,14 @@ def get_xml_field_text(xml_root, query):
 def register_device(location_url):
 
     xml_raw = urllibreq.urlopen(location_url).read().decode("UTF-8")
-    print(
-        "Device to be registered: {}".format(
-            json.dumps({
-                "location_url": location_url,
-                "xml_raw": xml_raw
-            })
-        )
-    )
+    # print(
+    #     "Device to be registered: {}".format(
+    #         json.dumps({
+    #             "location_url": location_url,
+    #             "xml_raw": xml_raw
+    #         })
+    #     )
+    # )
 
     xml = re.sub(r"""\s(xmlns="[^"]+"|xmlns='[^']+')""", '', xml_raw, count=1)
     info = ET.fromstring(xml)
@@ -89,14 +89,14 @@ def register_device(location_url):
         "st": UPNP_SERVICE_TYPE
     }
 
-    print(
-        "Device registered: {}".format(
-            json.dumps({
-                "device_xml": xml,
-                "device_info": device
-            })
-        )
-    )
+    # print(
+    #     "Device registered: {}".format(
+    #         json.dumps({
+    #             "device_xml": xml,
+    #             "device_info": device
+    #         })
+    #     )
+    # )
 
     return device
 
@@ -137,7 +137,7 @@ def get_devices(timeout=3.0, host=None):
     while True:
 
         try:
-            data, addr = s.recvfrom(1024)
+            data, addr = s.recvfrom(2048)
         except socket.timeout:
             break
 

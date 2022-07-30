@@ -8,7 +8,7 @@ import 文件服务类
 
 def 获取设备列表():
     设备列表 = []
-    my_devices = devices.get_devices(5)
+    my_devices = devices.get_devices(3)
     for i, device in enumerate(my_devices, 1):
         设备列表.append({
             "Model": device["friendly_name"],
@@ -55,7 +55,7 @@ def 停止播放(device):
 
 if __name__ == '__main__':
     pass
-    # print(获取设备列表())
+    print(获取设备列表())
     # device = 投递视频文件("http://192.168.31.239:57873/description.xml",
     #                       "/Users/chensuilong/Documents/lzxd/廉政行动2022.2022.EP01.HD1080P.X264.AAC.Cantonese.CHS.BDYS.mp4")
     # sleep(5)
