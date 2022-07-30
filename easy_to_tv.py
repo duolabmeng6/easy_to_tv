@@ -15,6 +15,7 @@ from qtefun.组件.单行编辑框 import 单行编辑框
 from qtefun.图标 import *
 from pyefun.调试.调试输出 import *
 import 投屏模块
+import go2tv模块
 
 import ui_多多投屏
 import 文件服务器
@@ -59,7 +60,9 @@ class 刷新设备线程(QThread):
     def run(self):
         pass
         print("刷新设备线程开始")
-        self.数据 = 投屏模块.获取设备列表()
+        # self.数据 = 投屏模块.获取设备列表()
+        self.数据 = go2tv模块.获取设备列表()
+
 
     def ui_开始(self):
         pass
