@@ -25,6 +25,13 @@ def 取局域网ip(target_ip, target_port=80):
     return serve_ip
 
 
+def 正则取中文数字字母(欲处理文本: str) -> str:
+    import re
+    正则表达式 = re.compile(r'[^\u4e00-\u9fa5a-zA-Z0-9\.]')
+    return 正则表达式.sub('', 欲处理文本)
+
+
+
 def 投递视频文件(设备url, 文件路径):
     device = devices.register_device(设备url)
     print("device", device)
@@ -38,8 +45,8 @@ def 投递视频文件(设备url, 文件路径):
     else:
         文件名 = os.path.basename(文件路径)
         # 取扩展名
-        扩展名 = os.path.splitext(文件名)[1]
-        文件名 = 取短id() + 扩展名
+        # 扩展名 = os.path.splitext(文件名)[1]
+        文件名 = 正则取中文数字字母(文件名)
         文件服务类.写文件名与路径(文件名, 文件路径)
         播放地址  = f"http://{局域网ip}:6161/{文件名}"
     files_urls = {'file_video': 播放地址}
