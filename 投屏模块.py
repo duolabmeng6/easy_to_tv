@@ -6,6 +6,7 @@ from nanodlna import dlna, devices
 import 文件服务类
 from pyefun import *
 
+
 def 获取设备列表():
     设备列表 = []
     my_devices = devices.get_devices(3)
@@ -31,7 +32,6 @@ def 正则取中文数字字母(欲处理文本: str) -> str:
     return 正则表达式.sub('', 欲处理文本)
 
 
-
 def 投递视频文件(设备url, 文件路径):
     device = devices.register_device(设备url)
     print("device", device)
@@ -47,12 +47,15 @@ def 投递视频文件(设备url, 文件路径):
         # 取扩展名
         # 扩展名 = os.path.splitext(文件名)[1]
         文件名 = 正则取中文数字字母(文件名)
+        # 文件名 = 取短id() + "." + 扩展名
+        文件名 = 编码_URL编码(文件名)
+
         文件服务类.写文件名与路径(文件名, 文件路径)
-        播放地址  = f"http://{局域网ip}:6161/{文件名}"
+        播放地址 = f"http://{局域网ip}:6161/{文件名}"
     files_urls = {'file_video': 播放地址}
     print("Files URLs: {}".format(files_urls))
     dlna.play(files_urls, device)
-    return device,播放地址
+    return device, 播放地址
 
 
 def 暂停播放(device):
