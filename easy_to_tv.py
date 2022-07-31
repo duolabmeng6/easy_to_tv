@@ -100,8 +100,6 @@ class MainWin(QMainWindow):
         self.ui = ui_多多投屏.Ui_MainWindow()
         self.ui.setupUi(self)
         self.show()
-        # 设置窗口图标
-        self.setWindowIcon(QIcon(go2tv模块.全局变量_资源文件目录 + "/app.png"))
 
         # 禁止最大化 伸缩大小
         self.setFixedSize(self.width(), self.height())
