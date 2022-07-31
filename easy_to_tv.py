@@ -158,7 +158,8 @@ class MainWin(QMainWindow):
     def 注册托盘图标(self):
         self.托盘图标 = QSystemTrayIcon(self)
         icon = QIcon()
-        icon.addFile(u"app.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/app/app.png", QSize(), QIcon.Normal, QIcon.Off)
+
         self.托盘图标.setIcon(icon)
         self.托盘图标.setToolTip("多多投屏 点击隐藏或显示")
         self.托盘图标.activated.connect(self.托盘图标被点击)

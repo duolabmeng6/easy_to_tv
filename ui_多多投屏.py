@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_多多投屏.ui'
+## Form generated from reading UI file 'ui_多多投屏nZejJo.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(397, 242)
         icon = QIcon()
-        icon.addFile(u"app.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/app/app.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")

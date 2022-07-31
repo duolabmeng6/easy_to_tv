@@ -15,8 +15,8 @@
    <string>多多投屏</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>app.png</normaloff>app.png</iconset>
+   <iconset resource="app.qrc">
+    <normaloff>:/app/app.png</normaloff>:/app/app.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
