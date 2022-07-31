@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_多多投屏nZejJo.ui'
+## Form generated from reading UI file 'ui_多多投屏.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.3.1
 ##
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(397, 242)
+        MainWindow.resize(397, 265)
         icon = QIcon()
         icon.addFile(u":/app/app.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName(u"gridLayout")
         self.pushButton_xuanzewenjjian = QPushButton(self.centralwidget)
         self.pushButton_xuanzewenjjian.setObjectName(u"pushButton_xuanzewenjjian")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton_xuanzewenjjian.sizePolicy().hasHeightForWidth())
@@ -59,11 +59,8 @@ class Ui_MainWindow(object):
 
         self.lineEdit_lujing = QLineEdit(self.centralwidget)
         self.lineEdit_lujing.setObjectName(u"lineEdit_lujing")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.lineEdit_lujing.sizePolicy().hasHeightForWidth())
-        self.lineEdit_lujing.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.lineEdit_lujing.sizePolicy().hasHeightForWidth())
+        self.lineEdit_lujing.setSizePolicy(sizePolicy)
         self.lineEdit_lujing.setMinimumSize(QSize(0, 32))
 
         self.gridLayout.addWidget(self.lineEdit_lujing, 3, 0, 1, 1)
@@ -78,8 +75,11 @@ class Ui_MainWindow(object):
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy2)
         self.label_2.setMaximumSize(QSize(16777215, 24))
 
         self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
@@ -107,27 +107,24 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.pushButton_jianchagengxin = QPushButton(self.centralwidget)
         self.pushButton_jianchagengxin.setObjectName(u"pushButton_jianchagengxin")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.pushButton_jianchagengxin.sizePolicy().hasHeightForWidth())
-        self.pushButton_jianchagengxin.setSizePolicy(sizePolicy4)
+        sizePolicy.setHeightForWidth(self.pushButton_jianchagengxin.sizePolicy().hasHeightForWidth())
+        self.pushButton_jianchagengxin.setSizePolicy(sizePolicy)
         self.pushButton_jianchagengxin.setMinimumSize(QSize(0, 32))
 
         self.horizontalLayout.addWidget(self.pushButton_jianchagengxin, 0, Qt.AlignLeft)
 
         self.pushButton_kaishibofang = QPushButton(self.centralwidget)
         self.pushButton_kaishibofang.setObjectName(u"pushButton_kaishibofang")
-        sizePolicy4.setHeightForWidth(self.pushButton_kaishibofang.sizePolicy().hasHeightForWidth())
-        self.pushButton_kaishibofang.setSizePolicy(sizePolicy4)
+        sizePolicy.setHeightForWidth(self.pushButton_kaishibofang.sizePolicy().hasHeightForWidth())
+        self.pushButton_kaishibofang.setSizePolicy(sizePolicy)
         self.pushButton_kaishibofang.setMinimumSize(QSize(0, 32))
 
         self.horizontalLayout.addWidget(self.pushButton_kaishibofang)
 
         self.pushButton_tingzhibofang = QPushButton(self.centralwidget)
         self.pushButton_tingzhibofang.setObjectName(u"pushButton_tingzhibofang")
-        sizePolicy4.setHeightForWidth(self.pushButton_tingzhibofang.sizePolicy().hasHeightForWidth())
-        self.pushButton_tingzhibofang.setSizePolicy(sizePolicy4)
+        sizePolicy.setHeightForWidth(self.pushButton_tingzhibofang.sizePolicy().hasHeightForWidth())
+        self.pushButton_tingzhibofang.setSizePolicy(sizePolicy)
         self.pushButton_tingzhibofang.setMinimumSize(QSize(0, 32))
 
         self.horizontalLayout.addWidget(self.pushButton_tingzhibofang)
@@ -138,7 +135,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 397, 22))
+        self.menubar.setGeometry(QRect(0, 0, 397, 24))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
