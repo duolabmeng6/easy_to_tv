@@ -6,6 +6,7 @@ from qtefun.组件.按钮 import 按钮
 from qtefun.组件.标签 import 标签
 from qtefun.组件.组合框 import 组合框
 from qtefun.组件.单行编辑框 import 单行编辑框
+from qtefun.组件.复选框 import 复选框
 from qtefun.图标 import *
 from pyefun.调试.调试输出 import *
 import 投屏模块
@@ -89,8 +90,6 @@ class 投屏线程(QThread):
         self.回调函数(self.播放设备, self.播放地址)
 
 
-
-
 class MainWin(QMainWindow):
     播放设备 = None
     检查更新窗口 = None
@@ -102,7 +101,7 @@ class MainWin(QMainWindow):
         self.ui.setupUi(self)
         self.show()
         # 设置窗口图标
-        self.setWindowIcon( QIcon(go2tv模块.全局变量_资源文件目录 + "/app.png"))
+        self.setWindowIcon(QIcon(go2tv模块.全局变量_资源文件目录 + "/app.png"))
 
         # 禁止最大化 伸缩大小
         self.setFixedSize(self.width(), self.height())
@@ -129,7 +128,8 @@ class MainWin(QMainWindow):
         self.编辑框路径 = 单行编辑框(self.ui.lineEdit_lujing)
         self.按钮检查更新 = 按钮(self.ui.pushButton_jianchagengxin)
         self.按钮检查更新.绑定事件被点击(self.按钮检查更新被点击)
-
+        self.选择框自动播放 = 复选框(self.ui.checkBox)
+        self.选择框自动播放.选中 = True
         self.播放设备 = None
         self.检查更新窗口 = None
 
@@ -175,7 +175,9 @@ class MainWin(QMainWindow):
 
     def 拖放结束事件(self, event):
         # 发送点击消息
-        self.按钮开始播放.对象.click()
+
+        if self.选择框自动播放.选中:
+            self.按钮开始播放.对象.click()
 
     def 拖放事件(self, event):
         if event.mimeData().hasUrls():
