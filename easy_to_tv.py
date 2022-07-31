@@ -2,6 +2,8 @@ from PySide6.QtWidgets import *
 from PySide6.QtGui import *
 from PySide6.QtCore import *
 
+from qtefun.国际化 import 设置语言为中文
+from qtefun.组件.主窗口 import 主窗口
 from qtefun.组件.按钮 import 按钮
 from qtefun.组件.标签 import 标签
 from qtefun.组件.组合框 import 组合框
@@ -90,12 +92,14 @@ class 投屏线程(QThread):
         self.回调函数(self.播放设备, self.播放地址)
 
 
-class MainWin(QMainWindow):
+class MainWin(主窗口):
     播放设备 = None
     检查更新窗口 = None
 
     def __init__(self):
         super().__init__()
+        self.setWindowFlags(Qt.WindowCloseButtonHint)
+
         self.当前选中设备URL = None
         self.ui = ui_多多投屏.Ui_MainWindow()
         self.ui.setupUi(self)
@@ -250,6 +254,12 @@ class MainWin(QMainWindow):
 
     def closeEvent(self, event: QCloseEvent) -> None:
         print("closeEvent")
+        # 提示用户是否退出
+        提示 = self.消息框("程序关闭将无法继续播放 \n是 关闭软件 \n否 保留在托盘图标","提示",4, ["是","否"])
+        if 提示 == "否":
+            self.hide()
+            event.ignore()
+            return
 
         if self.播放设备:
             投屏模块.停止播放(self.播放设备)
@@ -258,7 +268,7 @@ class MainWin(QMainWindow):
 
 if __name__ == '__main__':
     自动更新模块.初始化()
-
+    设置语言为中文()
     app = QApplication()
     window = MainWin()
 
