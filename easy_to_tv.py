@@ -58,7 +58,6 @@ class 刷新设备线程(QThread):
         # self.数据 = 投屏模块.获取设备列表()
         self.数据 = go2tv模块.获取设备列表()
 
-
     def ui_开始(self):
         pass
 
@@ -67,10 +66,8 @@ class 刷新设备线程(QThread):
         self.回调函数(self.数据)
 
 
-
-
 class 投屏线程(QThread):
-    def __init__(self, 当前选中设备URL,文件路径,回调函数):
+    def __init__(self, 当前选中设备URL, 文件路径, 回调函数):
         super(投屏线程, self).__init__()
         self.started.connect(self.ui_开始)
         self.finished.connect(self.ui_结束)
@@ -82,14 +79,15 @@ class 投屏线程(QThread):
 
     def run(self):
         pass
-        self.播放设备,self.播放地址 = 投屏模块.投递视频文件(self.当前选中设备URL, self.文件路径)
+        self.播放设备, self.播放地址 = 投屏模块.投递视频文件(self.当前选中设备URL, self.文件路径)
 
     def ui_开始(self):
         pass
 
     def ui_结束(self):
         pass
-        self.回调函数(self.播放设备,self.播放地址)
+        self.回调函数(self.播放设备, self.播放地址)
+
 
 
 
@@ -101,10 +99,11 @@ class MainWin(QMainWindow):
         super().__init__()
         self.当前选中设备URL = None
         self.ui = ui_多多投屏.Ui_MainWindow()
-
         self.ui.setupUi(self)
-
         self.show()
+        # 设置窗口图标
+        self.setWindowIcon( QIcon(go2tv模块.全局变量_资源文件目录 + "/app.png"))
+
         # 禁止最大化 伸缩大小
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("多多投屏 " + version.version)
@@ -148,21 +147,19 @@ class MainWin(QMainWindow):
         # 拖放结束事件
         self.ui.centralwidget.dropEvent = self.拖放结束事件
 
-
-
-
-
     def 按钮检查更新被点击(self):
         if self.检查更新窗口 is None:
             self.检查更新窗口 = 自动更新模块.窗口_更新软件(Github项目名称=全局_项目名称,
-                                                           应用名称=全局_应用名称,
-                                                           当前版本号=全局_当前版本,
-                                                           官方网址=全局_官方网址)
+                                         应用名称=全局_应用名称,
+                                         当前版本号=全局_当前版本,
+                                         官方网址=全局_官方网址)
         self.检查更新窗口.show()
 
     def 注册托盘图标(self):
         self.托盘图标 = QSystemTrayIcon(self)
-        self.托盘图标.setIcon(获取图标("mdi.apple-airplay", "#000000"))
+        icon = QIcon()
+        icon.addFile(u"app.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.托盘图标.setIcon(icon)
         self.托盘图标.setToolTip("多多投屏 点击隐藏或显示")
         self.托盘图标.activated.connect(self.托盘图标被点击)
         self.托盘图标.show()
@@ -175,10 +172,10 @@ class MainWin(QMainWindow):
             self.hide()
         else:
             self.show()
-    def 拖放结束事件(self,event):
+
+    def 拖放结束事件(self, event):
         # 发送点击消息
         self.按钮开始播放.对象.click()
-
 
     def 拖放事件(self, event):
         if event.mimeData().hasUrls():
@@ -192,8 +189,6 @@ class MainWin(QMainWindow):
                 文件路径 = 文件路径.replace("file://", "")
 
             self.编辑框路径.内容 = 文件路径
-
-
 
             event.accept()
         else:
@@ -222,13 +217,13 @@ class MainWin(QMainWindow):
         if 文件名[0]:
             self.编辑框路径.内容 = 文件名[0]
 
-    def 标签状态条被点击(self,e):
+    def 标签状态条被点击(self, e):
         # 设置剪切板文本
         QApplication.clipboard().setText(self.标签状态条.标题)
         # 提示用户
         QMessageBox.information(self, "提示", "已复制到剪切板")
 
-    def 投屏回调函数(self,播放设备,播放地址):
+    def 投屏回调函数(self, 播放设备, 播放地址):
         self.播放设备 = 播放设备
         self.播放地址 = 播放地址
         self.标签状态条.标题 = 播放地址
@@ -238,9 +233,8 @@ class MainWin(QMainWindow):
         if self.当前选中设备URL == None:
             QMessageBox.warning(self, "提示", "请选择设备")
             return
-        self.投屏 = 投屏线程(self.当前选中设备URL, self.编辑框路径.内容,self.投屏回调函数)
+        self.投屏 = 投屏线程(self.当前选中设备URL, self.编辑框路径.内容, self.投屏回调函数)
         self.投屏.start()
-
 
     def 按钮停止播放被点击(self):
         print("按钮停止播放被点击")
