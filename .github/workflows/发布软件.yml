@@ -2,8 +2,10 @@ name: 发布软件
 
 on:
   push: # 代码推送到main分支自动触发工作流
-    branches:
-      - main
+    #branches:
+    #  - main
+    paths:
+      - '**.py'
   workflow_dispatch: # 手动触发
 
 permissions: write-all # 给所有工作写权限
