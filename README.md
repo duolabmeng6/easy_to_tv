@@ -11,5 +11,13 @@
 
 [最新版下载](https://github.com/duolabmeng6/easy_to_tv/releases)
 
+# 运行环境
 
+* Window10
+* MacOS
 
+电视中需要安装接收端例如
+
+* 当贝投屏 无广告
+* 乐播投屏 又广告恶心人
+* 银河奇异果 无广告
