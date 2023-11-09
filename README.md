@@ -1,6 +1,8 @@
 # 新开发的多多投屏 支持进度条 音量控制 
 
-https://github.com/duolabmeng6/projection_screen_tv
+新项目地址 https://github.com/duolabmeng6/projection_screen_tv
+前往下载 https://github.com/duolabmeng6/projection_screen_tv/releases
+
 
 # 下面是旧的内容
 # 多多投屏 永久免费 开源软件
